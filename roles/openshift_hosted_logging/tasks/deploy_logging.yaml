@@ -122,35 +122,35 @@
     with_items:
       - "nfs-pv0001.yaml"
       - "nfs-pv_claim.yaml"
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Add permission to mount nfs storage"
     shell: oadm policy add-scc-to-user privileged system:serviceaccount:logging:aggregated-logging-elasticsearch
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Creating NFS persistent volume"
     shell: oc project logging && oc create -f /tmp/nfs-pv0001.yaml
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Creating NFS persistent volume claim"
     shell: oc project logging && oc create -f /tmp/nfs-pv_claim.yaml
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Put editor script on host"
     copy: src="dc-editor.py" dest="/tmp/dc-editor.py" mode=755
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Export deployer config"
     shell: oc get -o json dc  $(oc get dc | egrep -o 'logging-es-\w*') > /tmp/dc-es.json
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: "[custom] Edit config"
     shell: python /tmp/dc-editor.py
-    when: custom_nfs_deploy | default('false')
+    when: ( custom_nfs_deploy | default(false) | bool )
 
   - name: "[custom] Import deployer config"
     shell: oc replace dc  $(oc get dc | egrep -o 'logging-es-\w*') -f /tmp/dc-es.json
-    when: custom_nfs_deploy | default('false')
+    when: (custom_nfs_deploy | default('false') | bool )
 
   - name: Delete temp directory
     file:
