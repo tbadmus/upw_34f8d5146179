@@ -15,6 +15,7 @@ openshift_hosted_logging_master_public_url="https://k-node-1.dm.com:8443"
 openshift_hosted_logging_image_prefix="registry.access.redhat.com/openshift3/"
 openshift_hosted_logging_fluentd_replicas="3"
 #nfsstorage
+custom_nfs_deploy=true
 custom_nfs_storage_capacity="10Gi"
 custom_nfs_server="k-node-1.dm.com"
 custom_nfs_path="/home/data/pv0001"
