@@ -140,7 +140,7 @@
     copy: src="dc-editor.py" dest="/tmp/dc-editor.py" mode=755
     when: custom_nfs_deploy | default('false')
 
-  - name: "[custom] Export seployer config"
+  - name: "[custom] Export deployer config"
     shell: oc get -o json dc  $(oc get dc | egrep -o 'logging-es-\w*') > /tmp/dc-es.json
     when: custom_nfs_deploy | default('false')
 
